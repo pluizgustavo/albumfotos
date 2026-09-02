@@ -1,0 +1,7 @@
+{
+  "name": "albumfotos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
