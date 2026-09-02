@@ -5,11 +5,20 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/LoginPage.vue')
+  },
+  {
+    path: '/cadastro',
+    component: () => import('@/views/RegisterPage.vue')
   },
   {
     path: '/tabs/',
     component: TabsPage,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -28,6 +37,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Tab3Page.vue')
       }
     ]
+  },
+  {
+    path: '/sobre',
+    component: () => import('@/views/AboutPage.vue'),
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -35,5 +49,17 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to) => {
+  const isAuthenticated = localStorage.getItem('albumfotos.auth') === 'true';
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return '/login';
+  }
+
+  if ((to.path === '/login' || to.path === '/cadastro') && isAuthenticated) {
+    return '/tabs/tab1';
+  }
+});
 
 export default router

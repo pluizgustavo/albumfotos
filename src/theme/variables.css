@@ -1,2 +1,53 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+:root {
+	--ion-color-primary: #d85d38;
+	--ion-color-primary-rgb: 216, 93, 56;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-shade: #be5231;
+	--ion-color-primary-tint: #dc6d4c;
+	--ion-background-color: #f7f3ec;
+	--ion-text-color: #262521;
+	--gallery-ink: #262521;
+	--gallery-muted: #77736c;
+	--gallery-paper: #fffdf9;
+	--gallery-line: #e6dfd5;
+}
+
+ion-content {
+	--background: var(--ion-background-color);
+}
+
+ion-toolbar {
+	--background: var(--gallery-paper);
+	--color: var(--gallery-ink);
+}
+
+ion-tab-bar {
+	--background: var(--gallery-paper);
+	--border: 1px solid var(--gallery-line);
+}
+
+ion-tab-button {
+	--color: var(--gallery-muted);
+	--color-selected: var(--ion-color-primary);
+}
+
+.screen-shell {
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 28px 22px 40px;
+}
+
+.eyebrow {
+	color: var(--ion-color-primary);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.primary-button {
+	--border-radius: 14px;
+	--box-shadow: none;
+	height: 52px;
+	font-weight: 700;
+}
