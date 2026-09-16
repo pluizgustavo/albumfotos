@@ -2,6 +2,16 @@
 
 Aplicativo de galeria de fotos desenvolvido com Ionic Vue e Capacitor.
 
+## Identificação
+
+- **Nome do aluno:** Luiz Pereira
+- **Curso:** 3 Informática
+- **Unidade curricular:** Codificar aplicações para dispositivos móveis
+
+## Explicação do projeto
+
+O albumfotos é uma galeria protegida por login. Após autenticar, o usuário pode selecionar uma foto da galeria ou tirar uma foto com a câmera, remover memórias, consultar latitude, longitude e altitude na tela Sobre e alternar o tema claro/escuro. O tema é salvo no Preferences e as fotos são armazenadas em SQLite no Android, com fallback para `localStorage` no navegador. O app também informa quando o dispositivo está sem internet.
+
 ## Funcionalidades
 
 - Tela de login com sessão local.
@@ -10,6 +20,9 @@ Aplicativo de galeria de fotos desenvolvido com Ionic Vue e Capacitor.
 - Galeria com seleção de fotos e remoção de memórias.
 - Solicitação de permissão para câmera e galeria no Android.
 - Tela Sobre com opção de sair da conta.
+- Tela Sobre com localização e tema escuro persistente.
+- Aviso de aplicativo offline.
+- Banco SQLite para as fotos no Android.
 
 > Esta Parte 1 usa `localStorage` para demonstrar o fluxo sem um backend.
 

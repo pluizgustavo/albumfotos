@@ -6,7 +6,8 @@
         <span class="eyebrow">feito para guardar</span>
         <h1>Momentos simples.<br /><em>Para sempre.</em></h1>
         <p>O albumfotos é seu cantinho para reunir fotografias especiais, com leveza e privacidade.</p>
-        <div class="about-note"><strong>Parte 1</strong><span>Uma galeria pessoal desenvolvida com Ionic e Capacitor.</span></div>
+        <div class="about-note"><strong>Localização</strong><span v-if="loadingLocation">Obtendo sua localização...</span><span v-else-if="locationError">Não foi possível obter a localização.</span><span v-else>Latitude: {{ location.latitude }} | Longitude: {{ location.longitude }} | Altitude: {{ location.altitude }} m</span></div>
+        <ion-item lines="none"><ion-label>Modo escuro</ion-label><ion-toggle v-model="darkMode" @ion-change="toggleTheme" /></ion-item>
         <ion-button fill="outline" @click="logout">Sair da conta</ion-button>
       </main>
     </ion-content>
@@ -14,9 +15,30 @@
 </template>
 
 <script setup lang="ts">
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { onMounted, ref } from 'vue';
+import { Geolocation } from '@capacitor/geolocation';
+import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { getTheme, saveTheme } from '../services/appStorage';
 const router = useRouter();
+const darkMode = ref(false);
+const loadingLocation = ref(true);
+const locationError = ref(false);
+const location = ref({ latitude: 0, longitude: 0, altitude: 0 });
+
+onMounted(async () => {
+  darkMode.value = (await getTheme()) === 'dark';
+  try {
+    await Geolocation.requestPermissions();
+    const position = await Geolocation.getCurrentPosition();
+    location.value = { latitude: position.coords.latitude, longitude: position.coords.longitude, altitude: position.coords.altitude || 0 };
+  } catch { locationError.value = true; } finally { loadingLocation.value = false; }
+});
+
+async function toggleTheme() {
+  document.documentElement.classList.toggle('ion-palette-dark', darkMode.value);
+  await saveTheme(darkMode.value ? 'dark' : 'light');
+}
 function logout() { localStorage.removeItem('albumfotos.auth'); router.replace('/login'); }
 </script>
 

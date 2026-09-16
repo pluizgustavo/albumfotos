@@ -47,14 +47,15 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/vue';
 import { addOutline, closeOutline, imagesOutline } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
+import { addPhoto as savePhoto, getPhotos, removePhoto as deletePhoto } from '../services/appStorage';
 
 const router = useRouter();
 const photos = ref<string[]>([]);
 const message = ref('');
 const userName = ref('visitante');
 
-onMounted(() => {
-  photos.value = JSON.parse(localStorage.getItem('albumfotos.photos') || '[]');
+onMounted(async () => {
+  photos.value = await getPhotos();
   const account = JSON.parse(localStorage.getItem('albumfotos.account') || 'null');
   userName.value = account?.name?.split(' ')[0] || 'visitante';
 });
@@ -66,16 +67,16 @@ async function addPhoto() {
     const photo = await Camera.getPhoto({ quality: 90, resultType: CameraResultType.DataUrl, source: CameraSource.Prompt, promptLabelHeader: 'Adicionar memória', promptLabelPhoto: 'Escolher da galeria', promptLabelPicture: 'Tirar foto' });
     if (photo.dataUrl) {
       photos.value.unshift(photo.dataUrl);
-      localStorage.setItem('albumfotos.photos', JSON.stringify(photos.value));
+      await savePhoto(photo.dataUrl);
     }
   } catch {
     message.value = 'Não foi possível acessar a câmera ou a galeria.';
   }
 }
 
-function removePhoto(index: number) {
+async function removePhoto(index: number) {
   photos.value.splice(index, 1);
-  localStorage.setItem('albumfotos.photos', JSON.stringify(photos.value));
+  await deletePhoto(index);
 }
 
 function logout() { localStorage.removeItem('albumfotos.auth'); router.replace('/login'); }
