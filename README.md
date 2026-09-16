@@ -4,7 +4,7 @@ Aplicativo de galeria de fotos desenvolvido com Ionic Vue e Capacitor.
 
 ## Identificação
 
-- **Nome do aluno:** Luiz Gustavo Pereira
+- **Nome do aluno:** Luiz  Pereira
 - **Curso:** 3 Informática
 - **Unidade curricular:** Codificar aplicações para dispositivos móveis
 
